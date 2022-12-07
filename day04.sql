@@ -10,6 +10,10 @@ INSERT INTO calisanlar3 VALUES(234567890, 'Veli Cem', 'Ankara');
 INSERT INTO calisanlar3 VALUES(345678901, 'Mine Bulut', 'Izmir');
 select * from calisanlar3
 --Eger iki sutunun verilerini birlestirmek istersek concat sembol olan || kullaniriz.
+
+select concat(calisan_isim,' ',calisan_dogdugu_sehir ) as isim_sehir from calisanlar3;
+
+
 select calisan_id AS id,calisan_isim ||' '|| calisan_dogdugu_sehir AS calisan_bilgisi FROM calisanlar3
 --2.yol
 select calisan_id AS id, concat(calisan_isim,' ' calisan_dogdugu_sehir) AS calisan_bilgisi FROM calisanlar3
@@ -27,6 +31,19 @@ INSERT INTO insanlar VALUES(234567890, 'Veli Cem', 'Ankara');
 INSERT INTO insanlar VALUES(345678901, 'Mine Bulut', 'Izmir');
 INSERT INTO insanlar (ssn, adres) VALUES(456789012, 'Bursa');
 INSERT INTO insanlar (ssn, adres) VALUES(567890123, 'Denizli'); 
+
+-- Name sutununda null olan değerleri listeleyelim
+SELECT isim FROM insanlar WHERE isim IS NULL
+
+-- Insanlar taplosunda sadece null olmayan değerleri listeleyiniz
+SELECT isim FROM insanlar WHERE isim IS NOT NULL
+
+-- Insanlar toplasunda null değer almış değerleri no name olarak değiştiriniz
+
+update insanlar set isim='NO NAME' where isim is null;
+select * from insanlar;
+
+
 drop table  if exists insanlar;
 
 CREATE TABLE insanlar
@@ -43,15 +60,6 @@ INSERT INTO insanlar VALUES(256789012, 'Mahmut','Bulut', 'Istanbul');
 INSERT INTO insanlar VALUES (344678901, 'Mine','Yasa', 'Ankara');  
 INSERT INTO insanlar VALUES (345678901, 'Veli','Yilmaz', 'Istanbul');
 
--- Name sutununda null olan değerleri listeleyelim
-SELECT name FROM insanlar WHERE name IS NULL
-
--- Insanlar taplosunda sadece null olmayan değerleri listeleyiniz
-SELECT name FROM insanlar WHERE name IS NOT NULL
-
--- Insanlar toplasunda null değer almış isimleri no name olarak değiştiriniz
-
-update insanlar set name='NO NAME' where name is null;
 
 --ORDER BY CLAUSE
 /*
@@ -75,10 +83,13 @@ select * from insanlar where soyisim='Bulut' ORDER BY 2;
 --NOT : Order By komutundan sonra field(sutun) ismi yerine field(sutun) numarasi da kullanilabilir
 --Insanlar tablosundaki soyismi Bulut olanlari isim sirali olarak listeleyin 
 SELECT * FROM insanlar WHERE soyisim='Bulut' ORDER BY 2
+
 -- Insanlar tablosundaki tum kayitlari SSN numarasi buyukten kucuge olarak siralayin
 SELECT * FROM insanlar ORDER BY ssn DESC;
+
 -- Insanlar tablosundaki tum kayitlari isimler Natural sirali, Soyisimler ters sirali olarak listeleyin
 SELECT * FROM insanlar ORDER BY isim ASC, soyisim DESC;
+
 -- İsim ve soyisim değerlerini soyisim kelime uzunluklarına göre sıralayınız
 SELECT isim,soyisim FROM insanlar ORDER BY LENGTH (soyisim) DESC;
 
@@ -119,7 +130,7 @@ INSERT INTO manav VALUES( 'Ayse', 'Uzum', 2);
 select isim ,sum(urun_miktar) from manav group by isim; 
 --aggregate methodlarda tek kullanımın dışında çoklu veri çağırma kullanımlarda group by kullanırız.
 
---ürün ismine göre ürünü alan toplam kişi saysı
+--ürün ismine göre ürünü alan toplam kişi saysı 
 select urun_adi , count(isim) from manav group by urun_adi;
 
 --kişilerin aldığı ürün sayısı
